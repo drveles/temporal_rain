@@ -16,25 +16,13 @@ class ComposeGreetingInput:
     name: str
 
 
-# Basic activity that logs and does string concatenation
-@activity.defn
-async def compose_greeting(input: ComposeGreetingInput) -> str:
-    activity.logger.info("Running activity with parameter %s" % input)
-    await asyncio.sleep(5) # Imitate working in activity 
-    return f"{input.greeting}, {input.name}!"
-
-
 # Basic workflow that logs and invokes an activity
 @workflow.defn
 class GreetingWorkflow:
     @workflow.run
     async def run(self, name: str) -> str:
         workflow.logger.info("Running workflow with parameter %s" % name)
-        return await workflow.execute_activity(
-            compose_greeting,
-            ComposeGreetingInput("Hello", name),
-            start_to_close_timeout=timedelta(seconds=10),
-        )
+        return "Workflow without greeting Activity"
 
 
 async def main():
@@ -48,9 +36,8 @@ async def main():
     # Run a worker for the workflow
     async with Worker(
         client,
-        task_queue="hello-activity-task-queue-1",
+        task_queue="hello-activity-task-queue",
         workflows=[GreetingWorkflow],
-        activities=[compose_greeting],
     ):
 
         # While the worker is running, use the client to run the workflow and
@@ -60,7 +47,7 @@ async def main():
             GreetingWorkflow.run,
             "World",
             id="hello-activity-workflow-id",
-            task_queue="hello-activity-task-queue-1",
+            task_queue="hello-activity-task-queue",
         )
         print(f"Result: {result}")
 
