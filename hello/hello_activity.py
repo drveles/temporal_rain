@@ -20,6 +20,7 @@ class ComposeGreetingInput:
 @activity.defn
 async def compose_greeting(input: ComposeGreetingInput) -> str:
     activity.logger.info("Running activity with parameter %s" % input)
+    await asyncio.sleep(5) # Imitate working in activity 
     return f"{input.greeting}, {input.name}!"
 
 
