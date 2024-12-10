@@ -5,19 +5,19 @@ from hello_child_workflow import main as child_workflow
 from hello_workflow import main as workflow
 
 
-async def amain():
-    # Don't work. Need more workers?
-    tasks = []
+# async def amain():
+#     # Don't work. Need more workers?
+#     tasks = []
 
-    tasks.append(asyncio.create_task(activity()))
-    tasks.append(asyncio.create_task(activity_choice()))
-    tasks.append(asyncio.create_task(child_workflow()))
-    tasks.append(asyncio.create_task(workflow()))
+#     tasks.append(asyncio.create_task(activity()))
+#     tasks.append(asyncio.create_task(activity_choice()))
+#     tasks.append(asyncio.create_task(child_workflow()))
+#     tasks.append(asyncio.create_task(workflow()))
 
-    results = await asyncio.gather(*tasks)
+#     results = await asyncio.gather(*tasks)
 
-    print(tasks)
-    print(results)
+#     print(tasks)
+#     print(results)
 
 
 def smain():
